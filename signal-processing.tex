@@ -7,10 +7,12 @@
 \usepackage{multicol}
 \usepackage{dsfont}
 \usepackage{xcolor}
-\usepackage{enumitem}   
-
+\usepackage{enumitem}
+\usepackage{tcolorbox}
 \usepackage{amsmath, amsthm}
+\usepackage[framemethod=tikz]{mdframed}
 
+\setlist[itemize]{noitemsep, topsep=0pt}
 \setlist[enumerate]{nosep,noitemsep, topsep=0pt}
 
 \title{Time of Flight Cameras}
@@ -18,20 +20,29 @@
 
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+
+%\surroundwithmdframed[hidealllines=true,backgroundcolor=gray!30]{theorem}
+%\surroundwithmdframed[hidealllines=true, backgroundcolor=cyan!10, leftmargin=0cm, innerleftmargin=0.1cm, skipabove=0cm, skipbelow=0cm innerrightmargin=1.6cm, innertopmargin=0.1cm, innerbottommargin=0.1cm]{definition}
+%\surroundwithmdframed[backgroundcolor=red,backgroundcolor=orange!30,roundcorner=10pt]{example}
+
 
 %\setlength{\parskip}{0pt}
 %\setlength{\parsep}{0pt}
 %\setlength{\headsep}{0pt}
 %\setlength{\topskip}{0pt}
 %\setlength{\topmargin}{0pt}
-\setlength{\topsep}{0pt}
+%\setlength{\topsep}{0pt}
 %\setlength{\partopsep}{0pt}
+\setlength\abovedisplayskip{0pt}
+%\setlength{\abovedisplayskip}{0pt}
+\setlength{\belowdisplayskip}{0pt}
 \setlength{\droptitle}{-12em}   % This is your set screw
 \titlespacing*{\section}
 {0pt}{1.5ex plus 1ex minus .2ex}{0.0ex plus .0ex}
 \titlespacing*{\subsection}
 {0pt}{5.5ex plus 1ex minus .2ex}{0.0ex plus .0ex}
-\renewcommand{\baselinestretch}{0.8}
+\renewcommand{\baselinestretch}{0.9}
 \newcommand{\inlineeqnum}{\refstepcounter{equation}~~\mbox{(\theequation)}}
 
   
@@ -52,32 +63,20 @@
   \subsection{From Euclid to Hilbert}
   \subsubsection{Vector Spaces}
   
-  \begin{definition}{(Field)} 
+  \begin{definition}{(\textsc{Field})} 
     Let $ F $ be a set. An \emph{operation} is a mapping $ f:F\times F \rightarrow F$. Let \emph{addition} and \emph{multiplication} be the operations $ a + b$ and $ a\cdot b, \forall a,b\in F$. Let $ c \in F $. $ F $ is a \emph{field} if it has these properties:
     \begin{enumerate}[label=(\roman*)]
       \item \emph{Associativity of addition and multiplication}: $ (a+b)+c=a+(b+c) $ and $ (a\cdot b)\cdot c=a\cdot (b\cdot c) $
-      \item \emph{Commutativity of addition and multiplication}: $ a+b=b+a $ and $ a\cdot b=b\cdot a $
-      \item \emph{Additive and multiplicative identity}: $ \exists 0, 1\in F: a+0=a $ and $ a\cdot 1=a $
-      \item \emph{Additive and}
       
-    \end{enumerate}
-    
-    A \emph{field} is a set F together with two operations called addition and multiplication.[1] An operation is a mapping that associates an element of the set to every pair of its elements. The result of the addition of a and b is called the sum of a and b and denoted a + b. Similarly, the result of the multiplication of a and b is called the product of a and b, and denoted ab or a⋅b. These operations are required to satisfy the following properties, referred to as field axioms. In the following definitions, a, b and c are arbitrary elements of the field F.
-    
-    Associativity of addition and multiplication: a + (b + c) = (a + b) + c and a · (b · c) = (a · b) · c.
-    Commutativity of addition and multiplication: a + b = b + a and a · b = b · a.
-    Additive and multiplicative identity: there exist two different elements 0 and 1 in F such that a + 0 = a and a · 1 = a.
-    Additive inverses: for every a in F, there exists an element in F, denoted −a, called additive inverse of a, such that a + (−a) = 0.
-    Multiplicative inverses: for every a ≠ 0 in F, there exists an element in F, denoted by a−1, 1/a, or 
-    1
-    /
-    a
-    , called the multiplicative inverse of a, such that a · a−1 = 1.
-    Distributivity of multiplication over addition: a · (b + c) = (a · b) + (a · c) .
-    
+      \item \emph{Commutativity of add. and mult.}: $ a+b=b+a $ and $ a\cdot b=b\cdot a $
+      \item \emph{Additive and multiplicative identity}: $ \exists 0, 1\in F: a+0=a $ and $ a\cdot 1=a $
+      \item \emph{Additive inverses}: $\forall a\in F, \exists -a\in F: a+(-a)=0$
+      \item \emph{Multiplicative inverses}: $\forall a\neq 0 \in F, \exists a^{-1}(\text{ or } 1/a)\in F: a\cdot a^{-1}=1$.
+      \item \emph{Distributivity of multiplication over addition}: $ a\cdot(b+c) = (a\cdot b) + (a\cdot c) $.      
+    \end{enumerate}    
   \end{definition}
 
-  \begin{definition}{(Vector Space)}
+  \begin{definition}{(\textsc{Vector Space})}
     A \emph{vector space} over a field of scalars $ \mathds{C} $ (or $ \mathds{R} $) is a set of vectors, $ V$, together with operations of vector addition and scalar multiplication. For any $x$, $y$, $z$ in $ V $ and $ \alpha $, $ \beta $ in $ \mathds{C} $ (or $ \mathds{R} $), these operations must satisfy the following properties:
     \begin{enumerate}[label=(\roman*)]
       \item \emph{Commutativity}: $ x + y=y+x $.
@@ -88,6 +87,55 @@
       \item \emph{Multiplicative identity}: $ \forall x\in V, 1\cdot x = x$
     \end{enumerate}
   \end{definition}
+
+\noindent$ \mathds{C}^N $: \textbf{Vector space of complex-valued finite-dimensional vectors}\vspace{-0.18cm}
+\[ \mathds{C}^N = \left\{x=\begin{bmatrix}x_0&x_1&\dots&x_{N-1}\end{bmatrix}^T \middle| x_n\in \mathds{C}, n\in \{0,1,\dots,N-1\}\right\} \]
+
+\noindent$\mathds{C}^\mathds{Z}$: \textbf{Vector space of complex-valued sequences over $ \mathds{Z} $}\vspace{-0.18cm}
+\[ \mathds{C}^\mathds{Z} = \left\{x=\begin{bmatrix}\dots&x_{-1}&x_0&x_1&\dots\end{bmatrix}^T \middle| x_n\in \mathds{C}, n\in \mathds{Z}\right\} \]
+
+\noindent$\mathds{C}^\mathds{R}$: \textbf{Vector space of complex-valued function over $ \mathds{R} $}\vspace{-0.18cm}
+\[ \mathds{C}^\mathds{R} = \left\{x \middle| x(t)\in \mathds{C}, t \in \mathds{R}\right\}\]\vspace{-0.5cm}\[(x+y)(t)=x(t)+y(t) \text{ and } (\alpha x)(t) = \alpha x(t) \]
+
+\noindent \textbf{Vector Space of Polynomials}: since each polynomial $x(t)$ is specified by its coefficients, they combine exactly like vectors in $ \mathds{R}^N $:\vspace{-0.3cm}
+\[x(t) = \sum_{k=0}^{N-1}\alpha_kt^k\]
+
+\begin{definition}{(\textsc{Subspace})}
+  A nonempty subset $S$ of a vector space $V$ is a subspace when it is closed under the operations of vector addition and scalar multiplication: (i) $\forall x,y \in S, x+y\in S$ and (ii) $\forall x \in S \text{ and } \alpha\in \mathds{C}(\text{ or }\mathds{R}), \alpha x \in S$.
+\end{definition}
+
+\begin{itemize}
+  \item Let $V$ be a vector space and $x\in V$. The set $\alpha x$ is a subspace ($ \alpha\in\mathds{C} $).
+  \item In $ \mathds{C}^\mathds{Z} $, sequences with 0 outside indices $ \{2,3,4,5\} $ form a subspace.
+  \item In $ \mathds{R}^\mathds{R} $, the functions that are constant on intervals $ \left[k-\frac{1}{2},k+\frac{1}{2}\right), k\in\mathds{Z} $, forms a subspace. Addition and multiplication by scalar does not affect the contant property.
+  \item In the vector space of real valued functions on the interval $ \left[-\frac{1}{2},\frac{1}{2}\right] $,\\ $S_{odd}=\left\{x\middle|x(t)=-x(-t)\forall t\in\left[-\frac{1}{2},\frac{1}{2}\right]\right\}$ and\\ $S_{even}=\left\{x\middle|x(t)=x(-t)\forall t\in\left[-\frac{1}{2},\frac{1}{2}\right]\right\}$ are subspaces.
+\end{itemize}
+
+\begin{definition}{(\textsc{Convex Set})}
+  In a \emph{convex set} $A$, if $x\in A$ and $y\in A$, so is $\lambda x + (1-\lambda)y, \lambda \in [0,1]$.
+\end{definition}
+
+\begin{definition}{(\textsc{Affine Subspace})}
+  A subset $T$ of a vector $V$ is an \emph{affine subspace} when there is a subspace $S\subset V$ and $v\in V$ s.t. any $ t\in T $ can be written as $x+s$ for some $s\in S$. $T$ is a subspace if $\textbf{0}\in T$. Affines subspaces are convex sets.
+\end{definition}
+
+\begin{itemize}
+  \item Let $ x\in V $ and $ y\in V $. The set $x+\alpha y$ is an affine space.
+  \item In $ \mathds{C}^\mathds{Z} $, sequences that equal 1 outside $ \{2, 3, 4, 5\}$ is an affine subspace.
+\end{itemize}
+
+\begin{definition}{(\textsc{Span})}
+  The \emph{span} is the set of all linear combinations: $$\text{span}(S)=\left\{\sum_{k=0}^{N-1}\alpha_k\phi_k\middle|\alpha_k\in \mathds{C} (\text{ or } \mathds{R}), \phi_k \in S \text{ and } N \in \mathds{N} \right\}$$
+\end{definition}
+
+\noindent\textbf{Proper Subspace}: 
+
+\begin{definition}{(\textsc{Linearly Independent Set})}
+  The set $ \left\{\phi_0, \phi_1, \dots,\phi_{N-1}\right\} $ is \emph{linear independent} when $\sum_{k=0}^{N-1}\alpha_k\phi_k=\textbf{0}$ is true only if $\alpha_k=0, \forall k$.
+\end{definition}
+\begin{definition}{(\textsc{Dimension})}
+  content...
+\end{definition}
   
 %  \textbf{Real plane as a vector space}\\
   Let $x\in\mathds{R}^2, x=\begin{bmatrix}x_0&x_1\end{bmatrix}^T$ be a vector. The \emph{inner product} (also \emph{scalar product} or \emph{dot product}) of $x=\begin{bmatrix}x_0&x_1\end{bmatrix}$ and $y=\begin{bmatrix}y_0&y_1\end{bmatrix}$ is $\langle x,y\rangle=x_0y_0+x_1y_1\inlineeqnum\label{e:inner_product}$. $\langle x,x\rangle=x_0^2+x_1^2$, $\langle x,x\rangle\geq 0$, $x_0=x_1=0\Rightarrow\langle x,x\rangle =0$. The \emph{norm} is $\norm{x} = \sqrt{\langle x,x\rangle}\inlineeqnum$. A \emph{unit vector} $x$ has $\norm{x}=1$. Eq \ref{e:inner_product} depends on the coordinates axes. Let $\theta_x$ the angle between the positive horizontal axis and $x$. Define $\theta_y$ similarly. So, $\langle x,y\rangle = x_0y_0+x_1y_1 = (\norm{x}\cos\theta_x)(\norm{y}\cos\theta_y)+(\norm{x}\sin\theta_x)(\norm{y}\sin\theta_y) = \norm{x}\norm{y}(\cos\theta_x\cos\theta_y+\sin\theta_x\sin\theta_y)=\norm{x}\norm{y}(\cos\theta_x\cos-\theta_y-\sin\theta_x\sin-\theta_y)=\norm{x}\norm{y}\cos(\theta_x-\theta_y) = \norm{x}\norm{y}\cos\theta \inlineeqnum$, as $\cos\theta_y=\cos-\theta_y$, $\sin(\theta_y)=-\sin(-\theta_y)$ and $\cos(a+b)=\cos a\cos b-\sin a\sin b$. 
