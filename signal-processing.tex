@@ -15,12 +15,14 @@
 \setlist[itemize]{noitemsep, topsep=0pt}
 \setlist[enumerate]{nosep,noitemsep, topsep=0pt}
 
+\DeclareMathAlphabet{\pazocal}{OMS}{zplm}{m}{n}
 \title{Time of Flight Cameras}
 \author{Anderson Tavares, anderson.moreira.tavares@liu.se}
 
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}
 \newtheorem{example}{Example}
+\newtheorem{theorem}{Theorem}
 
 %\surroundwithmdframed[hidealllines=true,backgroundcolor=gray!30]{theorem}
 %\surroundwithmdframed[hidealllines=true, backgroundcolor=cyan!10, leftmargin=0cm, innerleftmargin=0.1cm, skipabove=0cm, skipbelow=0cm innerrightmargin=1.6cm, innertopmargin=0.1cm, innerbottommargin=0.1cm]{definition}
@@ -116,7 +118,7 @@
 \end{definition}
 
 \begin{definition}{(\textsc{Affine Subspace})}
-  A subset $T$ of a vector $V$ is an \emph{affine subspace} when there is a subspace $S\subset V$ and $v\in V$ s.t. any $ t\in T $ can be written as $x+s$ for some $s\in S$. $T$ is a subspace if $\textbf{0}\in T$. Affines subspaces are convex sets.
+  A subset $T$ of a vector $V$ is an \emph{affine subspace} when there is a subspace $S\subset V$ and $v\in V$ s.t. any $ t\in T $ can be written as $x+s$ for some $s\in S$. $T$ is a subspace if $\textbf{0}\in T$. Affine subspaces are convex sets.
 \end{definition}
 
 \begin{itemize}
@@ -134,8 +136,108 @@
   The set $ \left\{\phi_0, \phi_1, \dots,\phi_{N-1}\right\} $ is \emph{linear independent} when $\sum_{k=0}^{N-1}\alpha_k\phi_k=\textbf{0}$ is true only if $\alpha_k=0, \forall k$.
 \end{definition}
 \begin{definition}{(\textsc{Dimension})}
-  content...
+  A vector space $ V $ is said to have \emph{dimension} $ N $ when it contains a linearly independent set with $ N $ elements and every set with $ N+1 $ or more elements is linearly dependent. If no such finite $ N $ exists, $ V $ is infinite-dimensional.
 \end{definition}
+
+% Put examples of dimension
+
+\begin{definition}{(\textsc{Inner product})}
+  An inner product on a vector space $ V $ over $ \mathds{C} $ (or $ \mathds{R} $) is a complex-valued (or real-valued) function $ \langle\cdot,\cdot\rangle $ defined on $ V\times V $, with the following properties $ \forall x,y,z \in V $ and $ \alpha \in \mathds{C} $ (or $ \mathds{R} $):
+  \begin{enumerate}[label=(\roman*)]
+    \item \emph{Distributivity}: $ \langle x+y, z\rangle = \langle x,z\rangle $.
+    \item \emph{Linearity in the first argument}: $ \langle \alpha x, y\rangle = \alpha\langle x,y\rangle $.
+    \item \emph{Hermitian symmetry}: $ \langle x,y\rangle^*= \langle y,x\rangle $.
+    \item \emph{Positive definiteness}: $ \langle x,x\rangle \geq 0$, and $ \langle x,x\rangle = 0 $ iif $ x = \textbf{0} $.
+  \end{enumerate}
+\end{definition}
+
+\begin{definition}{(\textsc{Orthogonality})}
+  \begin{enumerate}[label=(\roman*)]
+    \item Vectors $ x $ and $ y $ are said to \emph{orthogonal} when $ \langle x,y\rangle = 0 $, written as $ x\perp y $.
+    \item A set of vectors $ S $ is called \emph{orthogonal} when $ x\perp y, \forall x,y\in S: x\neq y $.
+    \item A set $ S $ is \emph{orthonormal} when it is orthogonal and $ \langle x,x\rangle = 1, \forall x\in S $.
+    \item A vector $ x $ is \emph{orthogonal} to a set $ S $ when $ X\perp s, \forall s\in S $, written as $ x\perp S $.
+    \item Sets $ S_0 $ and $ S_1 $ are \emph{orthogonal} if $ s_0\perp S_1, \forall s_0\in S_0 $, written as $ S_0\perp S_1 $.
+    \item Given a subspace $ S $ of a vector space $ V $, the \emph{orthogonal complement} of S, denoted $ S^\perp $, is the set $ \left\{ x\in V\middle|x\perp S\right\} $ .
+  \end{enumerate}
+\end{definition}
+
+\begin{definition}{(\textsc{Norm})}
+  A \emph{norm} of a vector space $ V $ over $ \mathds{C} $ (or $ \mathds{R} $) is a real valued function $ \norm{\cdot} $ defined on $ V $, with the following properties $ \forall x,y\in V $ and $ \alpha\in\mathds{C} $ (or $ \mathds{R} $):
+  \begin{enumerate}[label=(\roman*)]
+    \item \emph{Positive definiteness}: $ \norm{x} \geq 0 $, and $ \norm{x} = 0 $ if and only if $ x = \textbf{0} $.
+    \item \emph{Positive scalability}: $ \norm{\alpha x} = |\alpha|\norm{x} $
+    \item \emph{Triangle inequality}: $ \norm{x+y}\leq \norm{x} + \norm{y} $, with equality iif $ y=\alpha x $.
+  \end{enumerate}
+\end{definition}
+
+A vector space equipped with a norm becomes a \emph{normed vector space}. 
+
+\begin{definition}{(\textsc{Metric, or distance})}
+In a normed vector space, the \emph{metric}, or \emph{distance}, between vectors $ x $ and $ y $ is: $ d(x,y)=\norm{x-y} $.
+\end{definition}
+
+\begin{definition}{($ \ell^p(\mathds{Z}) $)}
+  For any $ p\in[1,\infty]$, the normed vector space $\ell^p(\mathds{Z})$ is the subspace of $ \mathds{C}^\mathds{Z}  $ consisting of vectors with finite $ \ell^p $ norm.
+\end{definition}
+
+\begin{definition}{($ \pazocal{L}^p(\mathds{R}) $)}
+  For any $ p\in[1,\infty]$, the normed vector space $\pazocal{L}^p(\mathds{R})$ is the subspace of $ \mathds{C}^\mathds{R} $ consisting of vectors with finite $ \pazocal{L}^p $ norm.
+\end{definition}
+
+\begin{definition}{(\textsc{Convergent sequence of vectors})}
+  A sequence of vectors $ x_0, x_1, \cdots $ in a normed vector space $ V $ is said to \emph{converge} to $ v\in V $ when $ \lim\limits_{k\rightarrow\infty}\norm{v-x_k} = 0 $, that is, given any $ \varepsilon > 0 $, there exists a $ K_\varepsilon $ such that $ \norm{v-x_k} < \varepsilon, \forall k > K_\varepsilon $.
+\end{definition}
+
+\begin{definition}{(\textsc{Closed subspace})}
+  A subspace $ S $ of a normed vector space $ V $ is \emph{closed} when it contains all limits of sequences of vectors in $ S $.
+\end{definition}
+
+\begin{definition}{(\textsc{Cauchy sequence of vectors})}
+  A sequence of vectors $ x_0, x_1, \cdots $ in a normed vector space is a \emph{Cauchy sequence} when, given any $ \varepsilon > 0 $, there exists a $ K_\varepsilon $ such that $ \norm{x_k-x_m} < \varepsilon, \forall k, m > K_\varepsilon $.
+\end{definition}
+
+\begin{definition}{(\textsc{Completeness and Hilbert space})}
+  A normed vector space $ V $ is \emph{complete} when every Cauchy sequence in $ V $ converges to a vector in $ V $. A complete inner product space is a \emph{Hilbert space}.
+\end{definition}
+
+\begin{definition}{(\textsc{Linear operator})}
+  A function $ A:H_0\rightarrow H_1 $ is a \emph{linear operator} from $ H_0 $ to $ H_1 $ when, $ \forall x,y \in H_0 $ and $ \alpha\in\mathds{C} $ (or $ \mathds{R} $), the following hold:
+  \begin{enumerate}[label=(\roman*)]
+    \item \emph{Additivity}: $ A(x+y) = Ax + Ay$.
+    \item \emph{Scalability}: $ A(\alpha x) = \alpha(Ax)$
+  \end{enumerate}
+  When $ H_0 = H_1 $, $ A $ is also called a linear operator on $ H_0 $.
+\end{definition}
+
+\begin{definition}{(\textsc{Operator norm and bounded linear operator})}
+  The \emph{operator norm} of A, denoted by $ \norm{A} $, is defined as $ \norm{A} = \sup_{\norm{x}=1} \norm{A_x} $. A linear operator is \emph{bounded} when its operator norm is finite.
+\end{definition}
+
+\begin{definition}{(\textsc{Inverse})}
+  A bounded linear operator $ A:H_0\rightarrow H_1 $ is \emph{invertible} if there is a bounded linear operator $ B: H_1\rightarrow H_0 $ such that $ BAx=x, \forall x\in H_0 \inlineeqnum\label{e:left_inverse}$ and $ ABy = y, \forall y\in H_1 \inlineeqnum\label{e:right_inverse}$. When such a $ B $ exists, it is unique, is denoted by $ A^{-1} $, and is called the \emph{inverse} of $ A $; $ B $ is a \emph{left inverse} of $ A $ when  (\ref{e:left_inverse}) holds, and $ B $ is a \emph{right inverse} of $ A $ when (\ref{e:right_inverse}) holds.
+\end{definition}
+
+\begin{definition}{(\textsc{Adjoint and Self-Adjoint Operator})}
+  The linear operator $ A^*: H_1\rightarrow H_0 $ is the \emph{adjoint} of the linear operator $ A^*: H_0\rightarrow H_1 $ when $ \langle Ax, y\rangle_{H_1} = \langle x, A^*y\rangle_{H_0}, \forall x\in H_0$ and $ \forall y\in H_1 $. When $ A=A^* $, the operator $ A $ is called \emph{self-adjoint} or \emph{Hermitian}.
+\end{definition}
+
+\begin{theorem}{(\textsc{Adjoint properties})}
+  Let $ A^*: H_0\rightarrow H_1 $ be a bounded linear operator.
+  \begin{enumerate}[label=(\roman*)]
+    \item The adjoint $ A^* $, defined through , exists.
+    \item The adjoint $ A^* $ is unique.
+    \item The adjoint of $ A^* $ equals the original operator, $ (A^*)^* = A $.
+    \item The operators $ AA^* $ and $ A^*A $ are self-adjoint.
+    \item The operator norms of $ A $ and $ A^* $ are equal, $ \norm{A^*} = \norm{A} $.
+    \item If $ A $ is invertible, $ (A^{-1})^* = (A^*)^{-1} $.
+    \item Let $ B:H_0\rightarrow H_1 $ be a bounded linear operator. Then, $ (A+B)^* = A^*+B^* $.
+    \item Let $ B:H_0\rightarrow H_1 $ be a bounded linear operator. Then, $ (BA)^* = A^*B^* $.
+  \end{enumerate}
+\end{theorem}
+
+
+
   
 %  \textbf{Real plane as a vector space}\\
   Let $x\in\mathds{R}^2, x=\begin{bmatrix}x_0&x_1\end{bmatrix}^T$ be a vector. The \emph{inner product} (also \emph{scalar product} or \emph{dot product}) of $x=\begin{bmatrix}x_0&x_1\end{bmatrix}$ and $y=\begin{bmatrix}y_0&y_1\end{bmatrix}$ is $\langle x,y\rangle=x_0y_0+x_1y_1\inlineeqnum\label{e:inner_product}$. $\langle x,x\rangle=x_0^2+x_1^2$, $\langle x,x\rangle\geq 0$, $x_0=x_1=0\Rightarrow\langle x,x\rangle =0$. The \emph{norm} is $\norm{x} = \sqrt{\langle x,x\rangle}\inlineeqnum$. A \emph{unit vector} $x$ has $\norm{x}=1$. Eq \ref{e:inner_product} depends on the coordinates axes. Let $\theta_x$ the angle between the positive horizontal axis and $x$. Define $\theta_y$ similarly. So, $\langle x,y\rangle = x_0y_0+x_1y_1 = (\norm{x}\cos\theta_x)(\norm{y}\cos\theta_y)+(\norm{x}\sin\theta_x)(\norm{y}\sin\theta_y) = \norm{x}\norm{y}(\cos\theta_x\cos\theta_y+\sin\theta_x\sin\theta_y)=\norm{x}\norm{y}(\cos\theta_x\cos-\theta_y-\sin\theta_x\sin-\theta_y)=\norm{x}\norm{y}\cos(\theta_x-\theta_y) = \norm{x}\norm{y}\cos\theta \inlineeqnum$, as $\cos\theta_y=\cos-\theta_y$, $\sin(\theta_y)=-\sin(-\theta_y)$ and $\cos(a+b)=\cos a\cos b-\sin a\sin b$. 
